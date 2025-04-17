@@ -1,4 +1,4 @@
-name: Build, Upload, 和 Sync
+name: Build, Upload, and Sync
 
 on:
   release:
@@ -38,21 +38,31 @@ jobs:
         run: chmod +x gradlew
 
       # 同时编译 Normal 和 Compatible APK
-      - name: Build Normal APKs
+      - name: Build Normal and Compatible APKs
         run: |
-          ./gradlew assembleNormalRelease -Pversion=${{ github.ref_name }}
+          ./gradlew assembleNormalRelease assembleCompatibleRelease -Pversion=${{ github.ref_name }}
 
       - name: Sign Normal APK
         id: sign_normal_apk
         uses: ilharp/sign-android-release@v1
         with:
           releaseDir: app/build/outputs/apk/normal/release/
-          signingKey: ${{ secrets.secrets.ANDROID_SIGNING_KEY  }}
+          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
           keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_SIGNING_PASSWORD }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
           buildToolsVersion: 34.0.0
 
+      - name: Sign Compatible APK
+        id: sign_compatible_apk
+        uses: ilharp/sign-android-release@v1
+        with:
+          releaseDir: app/build/outputs/apk/compatible/release/
+          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
+          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          buildToolsVersion: 34.0.0
 
       - name: Generate APKS Checksum
         run: |
@@ -77,7 +87,7 @@ jobs:
               * Normal 为正常版本,适用于Android 8.0及以上的系统
               * Compatible 为兼容版本,适用于Android 7.0及以下的系统,最低支持Android 5.1
             > ## 墙内更新
-              [抗揍云-LanZou](https://www.lanzoum.com/b011kv6pwd) 密码:`9527`
+              [抗揍云-LanZou](https://fansirs.lanzoue.com/b011kv6pwd) 密码:`9527`
 
       - name: Sync Release to Target Repository
         uses: softprops/action-gh-release@v2
