@@ -47,10 +47,10 @@ jobs:
         uses: ilharp/sign-android-release@v1
         with:
           releaseDir: app/build/outputs/apk/normal/release/
-          signingKey: ${{ secrets.same }}
-          keyAlias: ${{ secrets.same }}
-          keyStorePassword: ${{ secrets.123456 }}
-          keyPassword: ${{ secrets.123456 }}
+          signingKey: ${{ secrets.secrets.ANDROID_SIGNING_KEY  }}
+          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_SIGNING_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
           buildToolsVersion: 34.0.0
 
 
