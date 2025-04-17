@@ -47,10 +47,10 @@ jobs:
         uses: ilharp/sign-android-release@v1
         with:
           releaseDir: app/build/outputs/apk/normal/release/
-          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          signingKey: ${{ secrets.same }}
+          keyAlias: ${{ secrets.same }}
+          keyStorePassword: ${{ secrets.123456 }}
+          keyPassword: ${{ secrets.123456 }}
           buildToolsVersion: 34.0.0
 
 
@@ -77,7 +77,7 @@ jobs:
               * Normal 为正常版本,适用于Android 8.0及以上的系统
               * Compatible 为兼容版本,适用于Android 7.0及以下的系统,最低支持Android 5.1
             > ## 墙内更新
-              [抗揍云-LanZou](https://fansirs.lanzoue.com/b011kv6pwd) 密码:`9527`
+              [抗揍云-LanZou](https://www.lanzoum.com/b011kv6pwd) 密码:`9527`
 
       - name: Sync Release to Target Repository
         uses: softprops/action-gh-release@v2
