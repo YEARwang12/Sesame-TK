@@ -1,4 +1,4 @@
-name: Build, Upload, and Sync
+name: Build, Upload, 和 Sync
 
 on:
   release:
@@ -38,9 +38,9 @@ jobs:
         run: chmod +x gradlew
 
       # 同时编译 Normal 和 Compatible APK
-      - name: Build Normal and Compatible APKs
+      - name: Build Normal APKs
         run: |
-          ./gradlew assembleNormalRelease assembleCompatibleRelease -Pversion=${{ github.ref_name }}
+          ./gradlew assembleNormalRelease -Pversion=${{ github.ref_name }}
 
       - name: Sign Normal APK
         id: sign_normal_apk
@@ -53,16 +53,6 @@ jobs:
           keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
           buildToolsVersion: 34.0.0
 
-      - name: Sign Compatible APK
-        id: sign_compatible_apk
-        uses: ilharp/sign-android-release@v1
-        with:
-          releaseDir: app/build/outputs/apk/compatible/release/
-          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          buildToolsVersion: 34.0.0
 
       - name: Generate APKS Checksum
         run: |
